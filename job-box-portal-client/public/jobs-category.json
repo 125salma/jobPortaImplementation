@@ -1,0 +1,73 @@
+[
+    {
+        "id": 1,
+        "category": "Software Development",
+        "job_title": "Full Stack Developer",
+        "available_positions": 14,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+    },
+    {
+        "id": 2,
+        "category": "Healthcare",
+        "job_title": "Medical Assistant",
+        "available_positions": 9,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/270/270798.png"
+    },
+    {
+        "id": 3,
+        "category": "Education",
+        "job_title": "Primary School Teacher",
+        "available_positions": 6,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
+    },
+    {
+        "id": 4,
+        "category": "Marketing",
+        "job_title": "SEO Specialist",
+        "available_positions": 11,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/921/921347.png"
+
+    },
+    {
+        "id": 5,
+        "category": "Finance",
+        "job_title": "Financial Analyst",
+        "available_positions": 7,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/1995/1995561.png"
+    },
+    {
+        "id": 6,
+        "category": "Customer Service",
+        "job_title": "Call Center Agent",
+        "available_positions": 18,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/3468/3468088.png"
+    },
+    {
+        "id": 7,
+        "category": "Engineering",
+        "job_title": "Civil Engineer",
+        "available_positions": 5,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/1687/1687743.png"
+    },
+    {
+        "id": 8,
+        "category": "Logistics",
+        "job_title": "Supply Chain Manager",
+        "available_positions": 4,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/942/942748.png"
+    },
+    {
+        "id": 9,
+        "category": "Hospitality",
+        "job_title": "Restaurant Manager",
+        "available_positions": 8,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/7542/7542582.png"
+    },
+    {
+        "id": 10,
+        "category": "Human Resources",
+        "job_title": "Recruitment Specialist",
+        "available_positions": 3,
+        "logo_url": "https://cdn-icons-png.flaticon.com/512/7542/7542580.png"
+    }
+]
