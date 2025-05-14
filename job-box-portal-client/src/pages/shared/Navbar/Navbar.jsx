@@ -1,33 +1,62 @@
 import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext/AuthContext';
 import logo from '../../../assets/job-logo.png'
+// import useJobApplications from '../../../hooks/useJobApplications';
+import useRoleHandleSystem from '../../../hooks/useRoleHandleSystem';
+
 
 
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
+    // const [myApplicationsCount] = useJobApplications();
+    const {roleInfo} = useRoleHandleSystem();
+
+  const navigate = useNavigate()
+    const navOptions = <>
+        <li><NavLink to="/">Home</NavLink></li>
+        <li><NavLink to="/jobs">All Job</NavLink></li>
+        {
+            user&&  <li><NavLink to="/allReviews">All Reviews</NavLink></li>
+
+        }
+        {
+          user && roleInfo.isAdmin && <li><NavLink to="/dashboard/adminHome">Dashboard</NavLink></li>
+        }
+        {
+          user && !roleInfo.isAdmin && <li><NavLink to="/dashboard/userHome">Dashboard</NavLink></li>
+        }
+
+
+        <li><NavLink to="/dashboard/myApplications">
+
+            <div className="indicator">
+                {/* <span className="indicator-item text-primary ">+{myApplicationsCount.length}</span> */}
+                <p>My Applications</p>
+            </div>
+        </NavLink></li>
+
+        {/* <li><NavLink to="/addJob">Add Job</NavLink></li>
+        <li><NavLink to="/myPostedJobs">My Posted Jobs</NavLink></li> */}
+
+
+        {/* user er roll onujaiu dekhaba konta ke dekhbe */}
+
+    </>
+
 
     const handleSignOut = () => {
         signOutUser()
             .then(() => {
                 console.log('successful sign out')
+                 navigate('/login')
             })
             .catch(error => {
                 console.log('failed to sign out .stay here. dont leave me alone')
             })
     }
 
-    const navOptions = <>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/jobs">All Job</NavLink></li>
-        <li><NavLink to="/myApplications">My Applications</NavLink></li>
-        <li><NavLink to="/addJob">Add A Job</NavLink></li>
-        <li><NavLink to="/myPostedJobs">My Posted Jobs</NavLink></li>
-
-  {/* user er roll onujaiu dekhaba konta ke dekhbe */}
-
-    </>
     return (
         // <div className="navbar fixed z-10 bg-opacity-30 bg-black text-white max-w-screen-xl shadow-sm">
         //     <div className="navbar-start">
@@ -99,7 +128,18 @@ const Navbar = () => {
             </div>
             <div className="navbar-end">
                 {
-                    user ? <><button onClick={handleSignOut} className="btn">Log Out</button>
+                    user ? <>
+                        <span className='text-primary pr-2'>{user?.displayName}</span>
+
+                        <div className="avatar placeholder pr-2">
+                            <div className="bg-neutral text-neutral-content w-8 rounded-full">
+                                <span className="text-xs">
+                                    <img src={user?.photoURL} alt="" />
+                                </span>
+                            </div>
+                        </div>
+
+                        <button onClick={handleSignOut} className="btn">Log Out</button>
                     </> :
                         <>
                             <Link to="/register">Register</Link>

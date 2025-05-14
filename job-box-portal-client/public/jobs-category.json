@@ -3,71 +3,70 @@
         "id": 1,
         "category": "Software Development",
         "job_title": "Full Stack Developer",
-        "available_positions": 14,
+        "availability": "150 Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
     },
     {
         "id": 2,
         "category": "Healthcare",
         "job_title": "Medical Assistant",
-        "available_positions": 9,
+        "availability": "130+ Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/270/270798.png"
     },
     {
         "id": 3,
         "category": "Education",
         "job_title": "Primary School Teacher",
-        "available_positions": 6,
+        "availability": "39 Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
     },
     {
         "id": 4,
         "category": "Marketing",
         "job_title": "SEO Specialist",
-        "available_positions": 11,
+        "availability": "160 Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/921/921347.png"
-
     },
     {
         "id": 5,
         "category": "Finance",
         "job_title": "Financial Analyst",
-        "available_positions": 7,
+        "availability": "20 Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/1995/1995561.png"
     },
     {
         "id": 6,
         "category": "Customer Service",
         "job_title": "Call Center Agent",
-        "available_positions": 18,
+        "availability": "50+ Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/3468/3468088.png"
     },
     {
         "id": 7,
         "category": "Engineering",
         "job_title": "Civil Engineer",
-        "available_positions": 5,
+        "availability": "100+ Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/1687/1687743.png"
     },
     {
         "id": 8,
         "category": "Logistics",
         "job_title": "Supply Chain Manager",
-        "available_positions": 4,
+        "availability": "120 Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/942/942748.png"
     },
     {
         "id": 9,
         "category": "Hospitality",
         "job_title": "Restaurant Manager",
-        "available_positions": 8,
+        "availability": "150 Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/7542/7542582.png"
     },
     {
         "id": 10,
         "category": "Human Resources",
         "job_title": "Recruitment Specialist",
-        "available_positions": 3,
+        "availability": "300 Jobs Available",
         "logo_url": "https://cdn-icons-png.flaticon.com/512/7542/7542580.png"
     }
 ]

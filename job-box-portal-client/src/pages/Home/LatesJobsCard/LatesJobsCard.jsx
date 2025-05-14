@@ -6,10 +6,6 @@ import { Link } from 'react-router-dom';
 const LatesJobsCard = ({ job }) => {
     const { _id, title, company, company_logo, jobType, requirements, description, location, salaryRange } = job;
 
-
-
-
-
     return (
         <div className="card card-compact bg-base-100 shadow-xl">
             <div className='flex gap-2 m-2'>

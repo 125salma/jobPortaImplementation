@@ -14,27 +14,29 @@ const useAxiosSecure = () => {
 
     useEffect(() => {
 
-        axiosInstance.interceptors.response.use(response =>{
-       return response;
-        }, error =>{
+        axiosInstance.interceptors.response.use(response => {
+            return response;
+        }, error => {
             console.log('error caught in interceptor', error.status);
 
-            if(error.status === 401 || error.status ===403){
+            if (error.response?.status === 401 || error.response?.status === 403) {
                 console.log('need to logout the user');
                 signOutUser()
-                .then(()=>{
-                    console.log('log out user');
-                    navigate('/login');
-                })
-                .catch(error => console.log(error))
+                    .then(() => {
+                        console.log('log out user');
+                        
+                        //send the user to the login page
+                        navigate('/login');
+                    })
+                    .catch(error => console.log(error))
             }
             return Promise.reject(error);
         })
-    },[])
+    }, [])
 
 
 
- return axiosInstance;
+    return axiosInstance;
 };
 
 export default useAxiosSecure;
