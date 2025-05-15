@@ -172,8 +172,9 @@ async function run() {
       //res.send(token)
       res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+        secure: false
+        // secure: process.env.NODE_ENV === "production",
+        // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
 
       }).send({ success: true })
     })
@@ -182,8 +183,9 @@ async function run() {
     app.post('/logOut', (req, res) => {
       res.clearCookie('token', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+        secure: false
+        // secure: process.env.NODE_ENV === "production",
+        // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
 
       }).send({ success: true })
     })
@@ -496,7 +498,7 @@ async function run() {
 
       //console.log('cookies automatic request sent', req.cookies)
 
-      const result = await jobApplicationCollection.find(query).toArray();
+      const result = await jobApplicationCollection.find(query).sort({ appliedAt: -1 }).toArray();
       //shob data na thakay data jobId diye kore ager datar moode dukano hoise
       // fokira way to aggregate data
       for (const application of result) {
