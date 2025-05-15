@@ -74,7 +74,7 @@ useEffect(() => {
                     photo: refreshedUser?.photoURL || 'default_photo_url',
                 };
 
-                axios.post('http://localhost:5000/jwt', userData, { withCredentials: true })
+                axios.post('https://job-box-portal-server.vercel.app/jwt', userData, { withCredentials: true })
                     .then(res => {
                         console.log('login token', res.data);
                         setLoading(false);
@@ -88,7 +88,7 @@ useEffect(() => {
             // If the user is not logged in
             setUser(null);
 
-            axios.post('http://localhost:5000/logOut', {}, { withCredentials: true })
+            axios.post('https://job-box-portal-server.vercel.app/logOut', {}, { withCredentials: true })
                 .then(res => {
                     console.log('logOut token', res.data);
                     setLoading(false);
@@ -120,7 +120,7 @@ useEffect(() => {
     //                 photo: currentUser.photoURL,
     //             };
     //             console.log(user.name)
-    //             axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+    //             axios.post('https://job-box-portal-server.vercel.app/jwt', user, { withCredentials: true })
     //                 .then(res => {
 
     //                     console.log('login token', res.data);
@@ -129,7 +129,7 @@ useEffect(() => {
 
     //         }
     //         else {
-    //             axios.post('http://localhost:5000/logOut', {}, { withCredentials: true })
+    //             axios.post('https://job-box-portal-server.vercel.app/logOut', {}, { withCredentials: true })
     //                 .then(res => {
 
     //                     console.log('logOut token', res.data);

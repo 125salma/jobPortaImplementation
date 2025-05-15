@@ -18,7 +18,7 @@ const MyPostJobs = () => {
 
     // useEffect(() => {
 
-    //     axios.get(`http://localhost:5000/jobs?email=${user.email}`)
+    //     axios.get(`https://job-box-portal-server.vercel.app/jobs?email=${user.email}`)
     //         .then(res => {
     //             setJobs(res.data)
     //             console.log(res.data)
@@ -29,7 +29,7 @@ const MyPostJobs = () => {
     const { data: jobs = [], isLoading, error, refetch } = useQuery({
         queryKey: ['jobs', user?.email],
         queryFn: async () => {
-          const res = await axiosSecure.get(`http://localhost:5000/jobs?email=${user.email}`)
+          const res = await axiosSecure.get(`https://job-box-portal-server.vercel.app/jobs?email=${user.email}`)
           return res.data
         },
         enabled: !!user?.email,

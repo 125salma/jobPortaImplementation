@@ -8,53 +8,53 @@ import useJobApplications from '../../../hooks/useJobApplications';
 const MyApplication = () => {
     const [jobs, refetch] = useJobApplications()
     const axiosSecure = useAxiosSecure();
-    const {user} = useAuth()
-    
-     const handleDelete = id => {
-            console.log(id)
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // axios.delete(`http://localhost:5000/job-applications/${id}`, {
-                        axiosSecure.delete(`/job-applications/${id}`,{
-                        data: { email: user.email }
+    const { user } = useAuth()
+
+    const handleDelete = id => {
+        console.log(id)
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // axios.delete(`https://job-box-portal-server.vercel.app/job-applications/${id}`, {
+                axiosSecure.delete(`/job-applications/${id}`, {
+                    data: { email: user.email }
+                })
+                    .then(res => {
+                        console.log(res.data);
+
+                        // if (res.data.success) {
+                        //     setJobs(jobs => jobs.filter(job => job._id !== id));
+                        //     Swal.fire('Deleted!', 'Your application has been deleted.', 'success');
+                        // } else {
+                        //   Swal.fire('Error!', res.data.message, 'error');
+                        // }
+
+                        if (res.data.deletedCount > 0) {
+                            //use refetch() tantack tahole data auometic load hobe
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your job has been deleted.",
+                                icon: "success"
+                            });
+                            refetch();
+                        }
                     })
-                        .then(res => {
-                            console.log(res.data);
-    
-                            // if (res.data.success) {
-                            //     setJobs(jobs => jobs.filter(job => job._id !== id));
-                            //     Swal.fire('Deleted!', 'Your application has been deleted.', 'success');
-                            // } else {
-                            //   Swal.fire('Error!', res.data.message, 'error');
-                            // }
-    
-                            if (res.data.deletedCount > 0) {
-                                //use refetch() tantack tahole data auometic load hobe
-                                Swal.fire({
-                                    title: "Deleted!",
-                                    text: "Your job has been deleted.",
-                                    icon: "success"
-                                });
-                                refetch();
-                            }
-                        })
-    
-                }
-            })
-        }
-    
+
+            }
+        })
+    }
+
     return (
         <div className='my-10'>
-            <h2 className="text-3xl text-center">My Applications: {jobs.length}</h2>
-     <div className="overflow-x-auto">
+            <h2 className="text-3xl text-center mb-6"><strong>My Applications: {jobs.length}</strong></h2>
+            <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}
                     <thead>
@@ -92,10 +92,14 @@ const MyApplication = () => {
                                     </div>
                                 </td>
                                 <td>{job.jobType}</td>
-                                <td>{job.appliedAt}</td>
+                                {/* <td>{job.appliedAt}</td> */}
+                                <td className='text-blue-600'>
+                                    Time: {new Date(job.appliedAt).toLocaleString()}
+
+                                </td>
                                 <td>
                                     {
-                                        job.status? job.status : 'pending'
+                                        job.status ? job.status : 'pending'
                                     }
                                 </td>
                                 <th>
@@ -106,8 +110,8 @@ const MyApplication = () => {
                     </tbody>
                 </table>
             </div>
-            
-            </div>                  
+
+        </div>
     );
 };
 

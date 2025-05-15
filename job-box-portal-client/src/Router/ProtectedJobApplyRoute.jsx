@@ -13,7 +13,7 @@ const ProtectedJobApplyRoute = ({ children, allowedRoles }) => {
     }
   
     if (!user || !roleInfo) {
-      return <Navigate to="/login"  state={{ from: location }}  replace />;
+      return <Navigate to="/login"  state={location?.pathname}  replace />;
     }
   
     if (!allowedRoles.includes(roleInfo.role)) {

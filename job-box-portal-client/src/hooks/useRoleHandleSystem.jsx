@@ -19,7 +19,7 @@ const useRoleHandleSystem = () => {
       enabled: !loading && !!user?.email,
       queryKey: ['user-role', user?.email],
       queryFn: async () => {
-        const res = await axios.get(`http://localhost:5000/users/role/${user.email}`, {withCredentials: true});
+        const res = await axios.get(`https://job-box-portal-server.vercel.app/users/role/${user.email}`, {withCredentials: true});
         console.log(res.data)
         return res.data;
       }

@@ -6,13 +6,14 @@ import AuthContext from '../../context/AuthContext/AuthContext';
 import SocialLogin from '../shared/SocialLogin/SocialLogin';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const { singInUser } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
-    console.log('sign i page', location)
-    const from = location.state?.from?.pathname || '/'
+    console.log('log ni page', location)
+    const from = location.state || ' / ';
     console.log('state in the location', location.state)
 
     const handleSignIn = e => {
@@ -20,7 +21,7 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        //console.log(email, password);
 
         singInUser(email, password)
             .then(result => {
@@ -29,11 +30,19 @@ const Login = () => {
 
                 console.log(user)
 
-                axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+                axios.post('https://job-box-portal-server.vercel.app/jwt', user, { withCredentials: true })
+
                     .then(res => {
                         console.log(res.data)
                         if (res.data.success) {
-                            navigate(from, { replace: true });// JWT success হলে navigate
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "User login Successfully",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            navigate('/')
                         }
 
                     })

@@ -55,10 +55,15 @@ const Footer = () => {
 
             </div>
             <div className="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
-                <aside>
-                    <p>Copyright © {new Date().getFullYear()} - All right reserved by ACME Industries Ltd</p>
+                <aside >
+                    <p className='text-black'><strong>© {new Date().getFullYear()} - All rights reserved by</strong> <span className='font-bold text-blue-700'>Salma Akter</span> </p>
+               
+                    <p >
+                       <strong> This project is for learning and personal use only.</strong>
+                    </p>
                 </aside>
             </div>
+
         </footer>
     );
 };

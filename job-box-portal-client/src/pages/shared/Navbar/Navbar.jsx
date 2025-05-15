@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext/AuthContext';
 import logo from '../../../assets/job-logo.png'
-// import useJobApplications from '../../../hooks/useJobApplications';
+
 import useRoleHandleSystem from '../../../hooks/useRoleHandleSystem';
 
 
@@ -10,7 +10,6 @@ import useRoleHandleSystem from '../../../hooks/useRoleHandleSystem';
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
-    // const [myApplicationsCount] = useJobApplications();
     const {roleInfo} = useRoleHandleSystem();
 
   const navigate = useNavigate()
@@ -29,13 +28,11 @@ const Navbar = () => {
         }
 
 
-        <li><NavLink to="/dashboard/myApplications">
-
-            <div className="indicator">
-                {/* <span className="indicator-item text-primary ">+{myApplicationsCount.length}</span> */}
-                <p>My Applications</p>
-            </div>
-        </NavLink></li>
+     {/* {
+        user === 'user' &&
+  
+        <li><NavLink to="/dashboard/myApplications"></NavLink></li>
+} */}
 
         {/* <li><NavLink to="/addJob">Add Job</NavLink></li>
         <li><NavLink to="/myPostedJobs">My Posted Jobs</NavLink></li> */}

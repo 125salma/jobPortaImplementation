@@ -4,8 +4,10 @@ import { FaHouse } from 'react-icons/fa6';
 import { NavLink, Outlet } from 'react-router-dom';
 import useRoleHandleSystem from '../hooks/useRoleHandleSystem';
 import { MdRateReview } from 'react-icons/md';
+import useJobApplications from '../hooks/useJobApplications';
 
 const Dashboard = () => {
+  const [jobs] = useJobApplications();
   //TODO: get isAdmin value from the database
 
   const { roleInfo } = useRoleHandleSystem()
@@ -100,7 +102,7 @@ const Dashboard = () => {
               <li><NavLink to="/dashboard/users"><FaUsers /> All Users</NavLink></li>
               <li><NavLink to="/dashboard/addJobs"><FaAd /> Add Jobs</NavLink></li>
               <li><NavLink to="/dashboard/myPostJobs"><FaBook /> My Posted jobs</NavLink></li>
-              <li><NavLink to="/dashboard/contact-messages"><FaBook /> User Contact SMS</NavLink></li>
+              <li><NavLink to="/dashboard/contact-messages"><FaEnvelope /> User Contact SMS</NavLink></li>
 
               {/* <li><NavLink to="/dashboard/myApplications"><FaBook /> My Applications</NavLink></li> */}
 
@@ -119,7 +121,16 @@ const Dashboard = () => {
           {!roleInfo.isAdmin && !roleInfo.isRecruiter && (
             <>
               <li><NavLink to="/dashboard/userHome"><FaHouse /> User Home</NavLink></li>
-              <li><NavLink to="/dashboard/myApplications"><FaBook /> My Applications</NavLink></li>
+
+              <li><NavLink to="/dashboard/myApplications"><FaBook />
+
+                <div className="indicator">
+                  <span className="indicator-item text-primary ">+{jobs.length}</span>
+                  <p>My Applications</p>
+                </div>
+
+              </NavLink></li>
+
               <li><NavLink to="/dashboard/myReviewDetails"><MdRateReview />
                 My Review Details</NavLink></li>
               <li><NavLink to="/dashboard/reviews"><FaAd /> Add a Review</NavLink></li>

@@ -7,13 +7,16 @@ const AdminHome = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
-    const { data: stats = [] } = useQuery({
+    const { data: stats = {}, isLoading, error } = useQuery({
         queryKey: ['admin-stats'],
         queryFn: async () => {
             const res = await axiosSecure.get('/admin-stats');
             return res.data;
         }
     })
+    
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>Something went wrong: {error.message}</p>;
     return (
         <div className='text-3xl'>
             <h2>

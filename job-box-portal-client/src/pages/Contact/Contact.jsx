@@ -20,7 +20,7 @@ const Contact = () => {
         console.log(newContactlData)
 
 
-        axiosSecure.post('http://localhost:5000/contacts-message', newContactlData)
+        axiosSecure.post('https://job-box-portal-server.vercel.app/contacts-message', newContactlData)
                 .then(res =>{
                     console.log(res.data)
                     if (res.data.insertedId) {

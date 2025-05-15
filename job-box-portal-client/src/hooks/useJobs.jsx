@@ -6,7 +6,7 @@ const useJobs = (salarySort, search, minSalary, maxSalary) => {
  const [loading, setLoading] = useState(true);
 
  useEffect(()=>{
-  axios.get(`http://localhost:5000/jobs?salarySort=${salarySort}&search=${search}&min=${minSalary}&max=${maxSalary}`)
+  axios.get(`https://job-box-portal-server.vercel.app/jobs?salarySort=${salarySort}&search=${search}&min=${minSalary}&max=${maxSalary}`)
   .then(res =>{
     setLoading(false);
     setJobs(res.data);

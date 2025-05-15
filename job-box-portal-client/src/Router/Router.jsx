@@ -10,10 +10,7 @@ import Login from '../pages/Login/Login';
 import Job_Details from '../pages/Job_Details/Job_Details';
 import PrivateRoute from './PrivateRoute';
 import JobApply from '../pages/JobApply/JobApply';
-// import MyApplicaion from '../pages/MyApplication/MyApplicaion';
-// import AddJob from '../pages/AddJob/AddJob';
-// import MyPostedJobs from '../pages/MyPostedJobs/MyPostedJobs';
-// import ViewApplications from '../pages/ViewApplications/ViewApplications';
+
 import AllJob from '../pages/AllJob/AllJob';
 import Dashboard from '../layout/Dashboard';
 import MyApplication from '../pages/Dashboard/MyApplication/MyApplication';
@@ -21,7 +18,7 @@ import AllUsers from '../pages/Dashboard/AllUsers/AllUsers';
 import AdminRoute from './AdminRoute';
 import MyPostJobs from '../pages/Dashboard/MypostJobs/MyPostJobs';
 import AddJobs from '../pages/Dashboard/AddJobs/AddJobs';
-// import ViewJobApplications from '../pages/Dashboard/ViewJobApplications/ViewJobApplications';
+
 import ViewApplications_job from '../pages/Dashboard/ViewApplications_Job/ViewApplications_job';
 import UpadateJobs from '../pages/Dashboard/UpdateJobs/UpadateJobs';
 import UserHome from '../pages/Dashboard/UserHome/UserHome';
@@ -61,7 +58,7 @@ const Router = createBrowserRouter([
       {
         path: '/jobs/:id',
         element: <PrivateRoute><Job_Details></Job_Details></PrivateRoute>,
-        loader: ({ params }) => fetch(`http://localhost:5000/jobs/${params.id}`)
+        loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/jobs/${params.id}`)
 
       },
       {
@@ -71,24 +68,7 @@ const Router = createBrowserRouter([
           <ProtectedJobApplyRoute allowedRoles={['user']}><JobApply></JobApply></ProtectedJobApplyRoute>
         )
       },
-      // {
-      //   path: '/myApplications',
-      //   element: <PrivateRoute><MyApplicaion></MyApplicaion></PrivateRoute>
-      // },
-      // {
-      //   path: '/myPostedJobs',
-      //   element: <PrivateRoute><MyPostedJobs></MyPostedJobs></PrivateRoute>
-      // },
-      // {
-      //   path: '/viewApplications/:job_id',
-      //   element: <PrivateRoute><ViewApplications></ViewApplications></PrivateRoute>,
-      //   loader: ({params}) => fetch(`http://localhost:5000/job-applications/jobs/${params.job_id}`)
 
-      // },
-      {
-        path: '/addJob',
-        // element: <PrivateRoute><AddJob></AddJob></PrivateRoute>
-      },
       {
         path: '/login',
         element: <Login></Login>
@@ -143,11 +123,11 @@ const Router = createBrowserRouter([
       {
         path: 'myPostJobs/updateJobs/:id',
         // element:<AdminRoute><UpadateJobs></UpadateJobs></AdminRoute>,
-        // loader: ({params}) => fetch(`http://localhost:5000/jobs/${params.id}`)
+        // loader: ({params}) => fetch(`https://job-box-portal-server.vercel.app/jobs/${params.id}`)
         element: (
           <ProtectedRoute allowedRoles={['admin', 'recruiter']}><UpadateJobs></UpadateJobs></ProtectedRoute>
         ),
-        loader: ({ params }) => fetch(`http://localhost:5000/jobs/${params.id}`)
+        loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/jobs/${params.id}`)
 
       },
       {
@@ -161,12 +141,12 @@ const Router = createBrowserRouter([
       {
         path: 'myPostJobs/viewApplications-job/:job_id',
         // element: <AdminRoute><ViewApplications_job></ViewApplications_job></AdminRoute>,
-        // loader: ({params}) => fetch(`http://localhost:5000/job-applications/jobs/${params.job_id}`)
+        // loader: ({params}) => fetch(`https://job-box-portal-server.vercel.app/job-applications/jobs/${params.job_id}`)
         element: (
           <ProtectedRoute allowedRoles={['admin', 'recruiter']}><ViewApplications_job></ViewApplications_job></ProtectedRoute>
         ),
-        // loader: ({ params }) => fetch(`http://localhost:5000/job-applications/jobs/${params.job_id}`)
-        loader: ({ params }) => fetch(`http://localhost:5000/job-applications/jobs/${params.job_id}`, { credentials: 'include' })
+        // loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/job-applications/jobs/${params.job_id}`)
+        loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/job-applications/jobs/${params.job_id}`, { credentials: 'include' })
 
 
       },
@@ -198,7 +178,7 @@ const Router = createBrowserRouter([
       {
         path: 'myReviewDetails/update_review/:id',
         element: <UpdateReviews></UpdateReviews>,
-        loader: ({ params }) => fetch(`http://localhost:5000/reviews/${params.id}`)
+        loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/reviews/${params.id}`)
       },
       {
         path: 'contact-messages',

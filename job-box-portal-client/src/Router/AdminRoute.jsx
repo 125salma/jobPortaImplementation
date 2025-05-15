@@ -29,7 +29,7 @@ const AdminRoute = ({children}) => {
   // }
 
   
-    return <Navigate to="/login"  state={{ from: location }} />;
+    return <Navigate to="/"  state={location?.pathname} replace/>;
   
 };
 

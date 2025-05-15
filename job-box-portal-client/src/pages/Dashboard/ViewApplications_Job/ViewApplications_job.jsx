@@ -15,7 +15,7 @@ const ViewApplications_job = () => {
         const data = {
             status: e.target.value
         }
-        // axios.patch(`http://localhost:5000/job-applications/${id}`, data, {withCredentials: true})
+        // axios.patch(`https://job-box-portal-server.vercel.app/job-applications/${id}`, data, {withCredentials: true})
         axiosSecure.patch(`/job-applications/${id}`,data)
         .then(res => {
             if (res.data.modifiedCount) {

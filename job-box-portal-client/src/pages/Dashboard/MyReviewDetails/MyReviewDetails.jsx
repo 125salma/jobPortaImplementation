@@ -15,7 +15,7 @@ const MyReviewDetails = () => {
     const { data: reviews = [], refetch } = useQuery({
         queryKey: ['reviews', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`http://localhost:5000/my-reviews?email=${user.email}`)
+            const res = await axiosSecure.get(`https://job-box-portal-server.vercel.app/my-reviews?email=${user.email}`)
             console.log(res.data)
             return res.data;
         },

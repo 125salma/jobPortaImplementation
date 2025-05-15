@@ -29,7 +29,7 @@ const RecruiterRoute = ({children}) => {
   // }
 
   
-    return <Navigate to="/login"  state={{ from: location }}  />;
+    return <Navigate to="/login"  state={location?.pathname}  replace/>;
 };
 
 export default RecruiterRoute;

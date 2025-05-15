@@ -8,7 +8,7 @@ const LatestJobs = () => {
  const navigate = useNavigate()
 
   useEffect(() => {
-    axios.get('http://localhost:5000/jobs?salarySort=false')
+    axios.get('https://job-box-portal-server.vercel.app/jobs?salarySort=false')
       .then(res => {
         setJobs(res.data)
       })

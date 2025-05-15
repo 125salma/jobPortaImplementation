@@ -17,7 +17,7 @@ const UserRoute = ({ children}) => {
     return children;
   }
   
-    return <Navigate to="/login"  state={{ from: location }} />;
+    return <Navigate to="/login"  state={location?.pathname} replace/>;
 };
 
 export default UserRoute;
