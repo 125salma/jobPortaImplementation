@@ -34,7 +34,7 @@ const verifyToken = (req, res, next) => {
     return res.status(401).send({ message: 'Unauthorized access' });
   }
   //verify the token
-  jwt.verify(token,  process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).send({ message: 'Unauthorized access' });
     }
@@ -70,29 +70,7 @@ async function run() {
     const reviewsCollection = client.db('jobsBoxPortal').collection('reviews');
     const jobApplicationCollection = client.db('jobsBoxPortal').collection('jobs_applications');
     const contactsCollection = client.db('jobsBoxPortal').collection('users_contact');
-
-
-
-    //verifyRecruiter
-    // const verifyRecruiter = async (req, res, next) => {
-    //   const email = req.user?.email;
-    //   if (!email) {
-    //     return res.status(401).send({ message: 'Unauthorized: No email in token' });
-    //   }
-
-    //   try {
-    //     const user = await userCollection.findOne({ email });
-    //     if (!user || user.role !== 'recruiter') {
-    //       return res.status(403).send({ message: 'Forbidden: Not a recruiter' });
-    //     }
-
-    //     next();
-    //   } catch (err) {
-    //     console.error('verifyRecruiter error:', err);
-    //     res.status(500).send({ message: 'Internal server error' });
-    //   }
-    // };
-
+    const userProfilesCollection = client.db('jobsBoxPortal').collection('userProfiles');
 
 
 
@@ -114,6 +92,15 @@ async function run() {
       next();
     };
 
+
+    //verifyRecruiter
+    const verifyRecruiter = async (req, res, next) => {
+      const email = req.user?.email;
+      const user = await userCollection.findOne({ email });
+      if (user?.role !== 'recruiter') return res.status(403).send({ message: 'Forbidden: Not Recruiter' });
+      next();
+    };
+
     //verifyrecruiteroradmin
     const verifyRecruiterOrAdmin = async (req, res, next) => {
       const email = req.user?.email;
@@ -125,15 +112,28 @@ async function run() {
         return res.status(403).send({ message: 'Forbidden: Not Recruiter or Admin' });
       }
     };
+    //verifyrecruiteroradmin
+    const verifyUserOrRecruiter = async (req, res, next) => {
+      const email = req.user?.email;
+      const user = await userCollection.findOne({ email });
+      if (user?.role === 'user' || user?.role === 'recruiter') {
+        req.role = user.role;
+        next();
+      } else {
+        return res.status(403).send({ message: 'Forbidden: Not user or admin' });
+      }
+    };
 
 
 
 
     //auth related APIs
     app.post('/jwt', async (req, res) => {
-      const { email, photo, name } = req.body;
+      const { email, photo, name, lastLoggedAt, createdAt } = req.body;
       console.log('update photo', photo);
       console.log('update name', name);
+      console.log('LoggedAt', lastLoggedAt);
+      console.log('CreateAccount', createdAt)
       //jodi age photo url add korte bule jao taholeeta korba
 
       const defaultPhoto = 'default_photo_url';
@@ -147,7 +147,9 @@ async function run() {
           // }
           $set: {
             photo: photo || defaultPhoto,
-            name: name || defaultName
+            name: name || defaultName,
+            createdAt,
+            lastLoggedAt
           }
 
         },
@@ -243,6 +245,10 @@ async function run() {
       if (exsistingUser) {
         return res.send({ message: 'User already exists', insertedId: null })
       }
+
+  if (!user.role) {
+    user.role = 'user';
+  }
 
       const result = await userCollection.insertOne(user);
       res.send(result);
@@ -340,12 +346,25 @@ async function run() {
 
     app.get('/jobs', logger, async (req, res) => {
       //console.log('Inside /jobs API');
-
+      console.log(req.query)
       const email = req.query.email;
       const salarySort = req.query?.salarySort;
       const search = req.query?.search;
       const min = req.query?.min;
       const max = req.query?.max;
+
+      //divition
+      const division = req.query?.division;
+      const location = req.query?.location;
+      const startDate = req.query?.startDate;
+      const endDate = req.query?.endDate;
+
+      // console.log('hellow',division,location)
+
+      //pagination
+      const page = parseInt(req.query.page);
+      const size = parseInt(req.query.size);
+      console.log('pagination query', page, size)
 
       let query = {};
       let sortQuery = {};
@@ -356,6 +375,7 @@ async function run() {
       } else {
         query.status = 'active'; // Only show active jobs to public
       }
+
 
       // Full-text search on multiple fields
       if (search) {
@@ -370,6 +390,8 @@ async function run() {
         }));
       }
 
+
+
       // Salary range filter min max
       if (min && max) {
         query = {
@@ -379,6 +401,7 @@ async function run() {
         };
       }
 
+
       // Sorting by salary
       if (salarySort === "true") {
         sortQuery = { "salaryRange.min": -1 };
@@ -387,8 +410,51 @@ async function run() {
         sortQuery = { createdAt: -1 }; // Sort by latest jobs
       }
 
+
+      //group divition location filtering age division pore location must thakte hobe nahole mismatch kore
+      // if (division && location) {
+      //   query.location = {
+      //     $regex: new RegExp(`${division}[\\s,]*${location}`, 'i')
+      //   };
+      // } else if (division) {
+      //   query.location = {
+      //     $regex: new RegExp(division, 'i')
+      //   };
+      // } else if (location) {
+      //   query.location = {
+      //     $regex: new RegExp(location, 'i')
+      //   };
+      // }
+
+      if (division && location) {
+        query.$and = [
+          { location: { $regex: division, $options: 'i' } },
+          { location: { $regex: location, $options: 'i' } }
+        ];
+      } else if (division) {
+        query.location = { $regex: division, $options: 'i' };
+      } else if (location) {
+        query.location = { $regex: location, $options: 'i' };
+      }
+
+      // Date Filter
+      if (startDate || endDate) {
+        query.createdAt = {};
+        if (startDate) {
+          query.createdAt.$gte = new Date(startDate);
+        }
+        if (endDate) {
+          const end = new Date(endDate);
+          end.setHours(23, 59, 59, 999);
+          query.createdAt.$lte = end;
+        }
+      }
+
+
+
+
       try {
-        const cursor = jobsCollection.find(query).sort(sortQuery);
+        const cursor = jobsCollection.find(query).sort(sortQuery).skip(page * size).limit(size);
         const result = await cursor.toArray();
         res.send(result);
       } catch (error) {
@@ -397,6 +463,12 @@ async function run() {
       }
     });
 
+
+    //pagination
+    app.get('/jobsCount', async (req, res) => {
+      const count = await jobsCollection.estimatedDocumentCount()
+      res.send({ count })
+    })
 
 
     //specific job khujar jonno
@@ -624,18 +696,115 @@ async function run() {
     });
 
 
+    //daily user active chart
+    app.get('/daily-active-users', verifyToken, verifyAdmin, async (req, res) => {
+      const result = await userCollection.aggregate([
+
+        {
+          $group: {
+            _id: {
+              $dateToString: {
+                format: "%Y-%m-%d",
+                date: { $toDate: "$lastLoggedAt" }
+              }
+            },
+            users: { $addToSet: "$email" }
+          }
+        },
+        {
+          $project: {
+            date: "$_id",
+            activeUsers: { $size: "$users" },
+            _id: 0
+          }
+        },
+        { $sort: { date: 1 } }
+
+      ]).toArray();
+
+      res.send(result);
+    });
+
+    //weekly job post
+    app.get('/weekly-jobs', verifyToken, verifyAdmin, async (req, res) => {
+      const result = await jobsCollection.aggregate([
+        {
+          $addFields: {
+            date: { $toDate: "$createdAt" }
+          }
+        },
+        {
+          $group: {
+            _id: {
+              year: { $isoWeekYear: "$date" },
+              week: { $isoWeek: "$date" }
+            },
+            firstDate: { $min: "$date" },
+            lastDate: { $max: "$date" },
+            jobs: { $sum: 1 }
+          }
+        },
+        {
+          $project: {
+            weekRange: {
+              $concat: [
+                { $dateToString: { format: "%d %b", date: "$firstDate" } },
+                " - ",
+                { $dateToString: { format: "%d %b", date: "$lastDate" } }
+              ]
+            },
+            jobs: 1,
+            _id: 0
+          }
+        },
+        { $sort: { "firstDate": 1 } }
+      ]).toArray();
+      res.send(result)
+    })
+
+
+
+
+
+
     //stats or analytics
-    app.get('/recruiter-stats', async (req, res) => {
+    app.get('/recruiter-stats', verifyToken, verifyRecruiter, async (req, res) => {
       // tar job koy job apply korse aggrygate pipeline diya ber korba
-      const jobApplication = await jobApplicationCollection.estimatedDocumentCount();
-      const jobCollection = await jobsCollection.estimatedDocumentCount();
+      const recruiterEmail = req.user.email;
+
+
+      // Recruiter koyta job post korse
+      const totalJobs = await jobsCollection.countDocuments({ hr_email: recruiterEmail });
+
+      //  post kora job er id ber kori
+      const recruiterJobs = await jobsCollection.find({ hr_email: recruiterEmail }).project({ _id: 1, status: 1 }) // shudu id ar status anchi
+        .toArray();
+
+      const jobIds = recruiterJobs.map(job => job._id);
+
+      // oishob job gular jonno koto gula application hoyeche
+      const totalApplications = await jobApplicationCollection.countDocuments({
+        job_id: { $in: jobIds.map(id => id.toString()) }
+      });
+
+      // Approved (Active) jobs count
+      const approvedJobs = recruiterJobs.filter(job => job.status === 'active').length;
+
+      // Pending jobs count
+      const pendingJobs = recruiterJobs.filter(job => job.status === 'pending').length;
+
+
       res.send({
-        users,
-        jobApplication,
-        jobCollection
-      })
+        totalJobs,
+        totalApplications,
+        approvedJobs,
+        pendingJobs,
+
+      });
 
     })
+
+
 
     //review
     //specific data load kore update
@@ -716,20 +885,69 @@ async function run() {
       const contacts = await contactsCollection.find().sort({ createdAt: -1 }).toArray();
       res.send(contacts);
     });
- //post contacts message
-    app.post('/contacts-message', verifyToken,verifyUser, async (req, res) => {
+    //post contacts message
+    app.post('/contacts-message', verifyToken, verifyUserOrRecruiter, async (req, res) => {
       const newContact = req.body;
       newContact.createdAt = new Date();
       const result = await contactsCollection.insertOne(newContact);
       res.send(result);
     })
-//spacific contact message delete
+    //spacific contact message delete
     app.delete('/contacts-message/:id', verifyToken, verifyAdmin, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await contactsCollection.deleteOne(query);
       res.send(result);
     });
+
+
+
+
+
+    //userProfile
+
+    // Get profile
+    // GET profile by email
+    app.get('/user-profile/:email', async (req, res) => {
+
+      const email = req.params.email;
+      // userProfilesCollection থেকে profile data খুঁজে বের করো
+      const profile = await userProfilesCollection.findOne({ email });
+      res.send(profile);
+
+    });
+    // Save or update profile
+    app.put('/profiles/:email', verifyToken, async (req, res) => {
+      // const user = req.user.email
+      const email = req.params.email;
+      const data = req.body;
+
+      const userInfo = await userCollection.findOne({ email });
+      const fullProfileData = {
+        ...data, // ফর্মের ডেটা
+        name: userInfo.name,
+        email: userInfo.email,
+        photo: userInfo.photo,
+        role: userInfo.role || "user"
+      };
+
+
+      console.log('profile Data', data)
+      console.log("PUT request received for:", email);
+      console.log("Data received:", data);
+
+      const result = await userProfilesCollection.updateOne(
+        { email },
+        { $set: fullProfileData },
+        { upsert: true }
+      );
+
+      res.send(result);
+    });
+
+
+
+
 
   } finally {
     // Ensures that the client will close when you finish/error
