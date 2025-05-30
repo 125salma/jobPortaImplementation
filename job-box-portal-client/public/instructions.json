@@ -1,0 +1,67 @@
+[
+  {
+    "id": "1",
+    "title": "How to Create an Account",
+    "rating": 4,
+    "steps": [
+      "Go to the homepage and click on the 'Sign Up' button.",
+      "Enter your name, email address,photoURL and choose a secure password.",
+      "Click 'Create Account' and verify your email to activate."
+    ]
+  },
+  {
+    "id": "2",
+    "title": "How to Log In",
+     "rating": 3.5,
+    "steps": [
+      "Click the 'Login' button on the homepage.",
+      "Enter your registered email and password.",
+      "Click 'Log In' to access your dashboard.",
+      "If you forgot your password, use the 'Forgot Password' link."
+    ]
+  },
+  {
+    "id": "3",
+    "title": "How to Complete Your Profile",
+    "rating": 5,
+    "steps": [
+      "Go to your profile by clicking on your avatar or name.",
+      "Fill in personal details, skills, experience, and education.",
+      "Upload your resume and profile photo.",
+      "Click 'Save' to update your profile information."
+    ]
+  },
+  {
+    "id": "4",
+    "title": "How to Search and Apply for Jobs",
+    "rating": 4.5,
+    "steps": [
+      "Navigate to the 'Find Jobs' page.",
+      "Use the filters to search by title, location, or company.",
+      "Click on a job to view the full description.",
+      "Click 'Apply Now' and confirm your application."
+    ]
+  },
+  {
+    "id": "5",
+    "title": "How to Post a Job (For Recruiters)",
+    "rating":4.5,
+    "steps": [
+      "Log in as a recruiter and go to the 'Post Job' page.",
+      "Enter job title, description, skills, location, and salary.",
+      "Submit the job post; it will be pending admin approval.",
+      "Once approved by admin, it will be visible to job seekers."
+    ]
+  },
+  {
+    "id": "6",
+    "title": "How to Track Your Applications",
+   "rating": 3,
+    "steps": [
+      "Go to the 'My Applications' section from the dashboard.",
+      "View the list of jobs you have applied to.",
+      "Track each application’s status: Applied, Under Review, Selected, or Rejected.",
+      "You will be notified if a recruiter responds or selects you."
+    ]
+  }
+]

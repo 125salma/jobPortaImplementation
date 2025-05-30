@@ -27,7 +27,7 @@ const AddJobs = () => {
         newJob.responsibilities = newJob.responsibilities.split('\n')
         console.log(newJob);
 
-        axiosSecure.post('https://job-box-portal-server.vercel.app/jobs', newJob)
+        axiosSecure.post('http://localhost:5000/jobs', newJob)
         .then(res =>{
             console.log(res.data)
             if (res.data.insertedId) {

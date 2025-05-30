@@ -64,6 +64,9 @@ useEffect(() => {
                 console.log('name:', refreshedUser?.displayName);
                 console.log('email:', refreshedUser?.email);
                 console.log('photo:', refreshedUser?.photoURL);
+                console.log('LastedLogin', refreshedUser.metadata?.lastSignInTime);
+                console.log('CreateAccoutn', refreshedUser?.metadata?.creationTime);
+                
 
                 setUser(refreshedUser);
 
@@ -72,9 +75,12 @@ useEffect(() => {
                     email: refreshedUser?.email,
                     name: refreshedUser?.displayName || 'Anonymous',
                     photo: refreshedUser?.photoURL || 'default_photo_url',
+                    lastLoggedAt: refreshedUser?.metadata?.lastSignInTime,
+                    createdAt: refreshedUser?.metadata?.creationTime
+
                 };
 
-                axios.post('https://job-box-portal-server.vercel.app/jwt', userData, { withCredentials: true })
+                axios.post('http://localhost:5000/jwt', userData, { withCredentials: true })
                     .then(res => {
                         console.log('login token', res.data);
                         setLoading(false);
@@ -88,7 +94,7 @@ useEffect(() => {
             // If the user is not logged in
             setUser(null);
 
-            axios.post('https://job-box-portal-server.vercel.app/logOut', {}, { withCredentials: true })
+            axios.post('http://localhost:5000/logOut', {}, { withCredentials: true })
                 .then(res => {
                     console.log('logOut token', res.data);
                     setLoading(false);
@@ -120,7 +126,7 @@ useEffect(() => {
     //                 photo: currentUser.photoURL,
     //             };
     //             console.log(user.name)
-    //             axios.post('https://job-box-portal-server.vercel.app/jwt', user, { withCredentials: true })
+    //             axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
     //                 .then(res => {
 
     //                     console.log('login token', res.data);
@@ -129,7 +135,7 @@ useEffect(() => {
 
     //         }
     //         else {
-    //             axios.post('https://job-box-portal-server.vercel.app/logOut', {}, { withCredentials: true })
+    //             axios.post('http://localhost:5000/logOut', {}, { withCredentials: true })
     //                 .then(res => {
 
     //                     console.log('logOut token', res.data);

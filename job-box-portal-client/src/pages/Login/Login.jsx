@@ -1,19 +1,26 @@
 import Lottie from 'lottie-react';
 import loginLottieJSON from '../../assets/lottie/login.json'
 import { Helmet } from 'react-helmet-async';
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import AuthContext from '../../context/AuthContext/AuthContext';
 import SocialLogin from '../shared/SocialLogin/SocialLogin';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { sendPasswordResetEmail } from "firebase/auth";
+import auth from '../../firebase/firebase.config';
+
+
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const Login = () => {
-    const { singInUser } = useContext(AuthContext);
+    const { singInUser, signOutUser } = useContext(AuthContext);
+    const [loginError, setLoginError] = useState('');
     const location = useLocation();
     const navigate = useNavigate();
     console.log('log ni page', location)
     const from = location.state || ' / ';
+    const emailRef = useRef();
+
     console.log('state in the location', location.state)
 
     const handleSignIn = e => {
@@ -23,14 +30,28 @@ const Login = () => {
         const password = form.password.value;
         //console.log(email, password);
 
+
+        setLoginError('')
+
+
+
         singInUser(email, password)
             .then(result => {
                 console.log('sign in', result.user.email);
+
+                // //verify email
+                // if (!result.user.emailVerified) {
+                //     setLoginError('Please verify your email address');
+                //     signOutUser()
+                //     return; // jeno nicher ongsho na chole
+                // }
+
+
                 const user = { email: result.user.email };
 
                 console.log(user)
 
-                axios.post('https://job-box-portal-server.vercel.app/jwt', user, { withCredentials: true })
+                axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
 
                     .then(res => {
                         console.log(res.data)
@@ -51,8 +72,27 @@ const Login = () => {
             })
             .catch(error => {
                 console.log(error);
+                setLoginError(error.message)
             })
 
+    }
+
+
+    //password forget send mail
+    const handleForgetPassword = () => {
+        console.log('get me email address', emailRef.current.value);
+        const email = emailRef.current.value;
+        if (!email) {
+          alert('Please Provide a Valid email address')
+        }
+        else{
+            sendPasswordResetEmail(auth, email)
+            .then(()=>{
+
+                alert('Password Reset Email sent, please check your email')
+            })
+            
+        }
     }
     return (
         <>
@@ -72,17 +112,18 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" name='email' placeholder="email" className="input input-bordered" required />
+                                <input type="email" name='email' placeholder="email" ref={emailRef} className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
                                 <input type="password" name='password' placeholder="password" className="input input-bordered" required />
-                                <label className="label">
+                                <label onClick={handleForgetPassword} className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
                             </div>
+                            <p className='text-red-400'>{loginError}</p>
                             <div className="form-control mt-6">
                                 <button className="btn btn-primary w-full">Login</button>
                             </div>

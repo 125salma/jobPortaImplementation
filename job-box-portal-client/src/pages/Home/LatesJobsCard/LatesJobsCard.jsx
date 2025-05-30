@@ -38,9 +38,14 @@ const LatesJobsCard = ({ job }) => {
                     }
 
                 </div>
+
+                <div>
+                    <p>StartAt: {new Date(job.createdAt).toISOString().split("T")[0]} - EndAt: {job.applicationDeadline}</p>
+                </div>
                 <div className="card-actions justify-end items-center mt-4">
 
                     <p className='flex items-center'>Salary: <FaDollarSign></FaDollarSign> {salaryRange.min} - {salaryRange.max} {salaryRange.currency}</p>
+
 
                     <Link to={`/jobs/${_id}`}>
                         <button className="btn btn-primary">Apply</button>

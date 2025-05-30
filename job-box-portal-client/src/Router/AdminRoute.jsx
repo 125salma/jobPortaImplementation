@@ -7,7 +7,7 @@ const AdminRoute = ({children}) => {
   const { user, loading, signOutUser } = useAuth(); // 
   const { roleInfo, roleLoading} = useRoleHandleSystem();
   const location = useLocation();
-   const navigate = useNavigate()
+  //  const navigate = useNavigate()
 
   if (loading || roleLoading) {
     return <span className="loading loading-ring loading-lg"></span>;

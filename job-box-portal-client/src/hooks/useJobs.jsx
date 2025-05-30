@@ -1,17 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-const useJobs = (salarySort, search, minSalary, maxSalary) => {
+const useJobs = (salarySort, search, minSalary, maxSalary, division, location, startDate, endDate, currentPage, itemsPerPage) => {
  const [jobs, setJobs] = useState([]);
  const [loading, setLoading] = useState(true);
 
  useEffect(()=>{
-  axios.get(`https://job-box-portal-server.vercel.app/jobs?salarySort=${salarySort}&search=${search}&min=${minSalary}&max=${maxSalary}`)
+  axios.get(`http://localhost:5000/jobs?salarySort=${salarySort}&search=${search}&min=${minSalary}&max=${maxSalary}&division=${division}&location=${location}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}&size=${itemsPerPage}`)
   .then(res =>{
     setLoading(false);
     setJobs(res.data);
   })
- },[salarySort, search, minSalary, maxSalary])
+ },[salarySort, search, minSalary, maxSalary, division, location, startDate, endDate, currentPage, itemsPerPage])
 
 //  return [jobs]
 return {jobs, loading};

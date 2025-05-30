@@ -1,5 +1,5 @@
 import Lottie from 'lottie-react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import registerLottieData from '../../assets/lottie/register.json'
 import { Helmet } from 'react-helmet-async';
 import AuthContext from '../../context/AuthContext/AuthContext';
@@ -8,10 +8,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
+// import { sendEmailVerification } from "firebase/auth";
+
 
 const Register = () => {
 
     const axiosPublic = useAxiosPublic();
+    const [errorMessage, setErrorMessage] = useState('')
 
 
     const { register, handleSubmit, reset, formState: { errors }, } = useForm();
@@ -42,18 +45,31 @@ const Register = () => {
 
     const onSubmit = (data) => {
         //console.log(data)
+        setErrorMessage('');
+
         createUser(data.email, data.password)
             .then(result => {
-                //const loggedUser = result.user
+                const loggedUser = result.user
                 //console.log(loggedUser);
+
+                //send varification email address
+
+                // sendEmailVerification(loggedUser)
+                //     .then(() => {
+                //         console.log('Verification Email sent')
+                //     })
+                const userInf = {
+                    email: data.email
+                }
+
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
                         // Create user entry in the database
-                        const userInf = {
-                            name: data.name,
-                            // photoURL: data.photoURL,
-                            email: data.email
-                        }
+                        // const userInf = {
+                        //     name: data.name,
+                        //     // photoURL: data.photoURL,
+                        //     email: data.email
+                        // }
                         axiosPublic.post('/users', userInf)
                             .then(res => {
                                 if (res.data.insertedId) {
@@ -73,8 +89,9 @@ const Register = () => {
 
                     })
             })
-            .catch(errors => {
-                console.log(errors)
+            .catch(error => {
+                console.log(error.message)
+                setErrorMessage(error.message)
             })
 
     }
@@ -179,6 +196,11 @@ const Register = () => {
 
                                 <div><a className="link link-hover">Forgot password?</a></div>
                                 <input type="submit" className="btn btn-neutral mt-4" value="Register" />
+
+
+                                {
+                                    errorMessage && <p className='text-red-400'>{errorMessage}</p>
+                                }
 
                             </fieldset>
                         </form>

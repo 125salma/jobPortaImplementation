@@ -22,7 +22,7 @@ const MyApplication = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                // axios.delete(`https://job-box-portal-server.vercel.app/job-applications/${id}`, {
+                // axios.delete(`http://localhost:5000/job-applications/${id}`, {
                 axiosSecure.delete(`/job-applications/${id}`, {
                     data: { email: user.email }
                 })

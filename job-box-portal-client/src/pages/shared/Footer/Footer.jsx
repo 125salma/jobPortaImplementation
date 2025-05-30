@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../../../assets/job-logo.png'
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -10,7 +11,9 @@ const Footer = () => {
                     <p>
                         Job Portal Ltd.
                         <br />
-                        Providing reliable tech since 1992
+                        <Link to="/">Home</Link><br />
+                        <Link to="/jobs">All Jobs</Link> <br />
+                        <Link to="/allReviews">All Reviews</Link>
                     </p>
                 </aside>
                 <nav>
@@ -57,9 +60,9 @@ const Footer = () => {
             <div className="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
                 <aside >
                     <p className='text-black'><strong>© {new Date().getFullYear()} - All rights reserved by</strong> <span className='font-bold text-blue-700'>Salma Akter</span> </p>
-               
+
                     <p >
-                       <strong> This project is for learning and personal use only.</strong>
+                        <strong> This project is for learning and personal use only.</strong>
                     </p>
                 </aside>
             </div>

@@ -35,6 +35,9 @@ import MyReviewDetails from '../pages/Dashboard/MyReviewDetails/MyReviewDetails'
 import UpdateReviews from '../pages/Dashboard/UpdateReviews/UpdateReviews';
 import Contact from '../pages/Contact/Contact';
 import ContactSMS from '../pages/Dashboard/ContactSMS/ContactSMS';
+import UserProfile from '../pages/Profile/UserProfile/UserProfile';
+import EditProfileForm from '../pages/Profile/EditProfileForm/EditProfileForm';
+import RecruiterRoute from './RecruiterRoute';
 
 
 
@@ -53,12 +56,13 @@ const Router = createBrowserRouter([
       },
       {
         path: 'jobs',
-        element: <PrivateRoute><AllJob></AllJob></PrivateRoute>
+        element: <PrivateRoute><AllJob></AllJob></PrivateRoute>,
+        loader: () => fetch('http://localhost:5000/jobsCount')
       },
       {
         path: '/jobs/:id',
         element: <PrivateRoute><Job_Details></Job_Details></PrivateRoute>,
-        loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/jobs/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/jobs/${params.id}`)
 
       },
       {
@@ -67,6 +71,14 @@ const Router = createBrowserRouter([
         element: (
           <ProtectedJobApplyRoute allowedRoles={['user']}><JobApply></JobApply></ProtectedJobApplyRoute>
         )
+      },
+      {
+        path: '/profile/:email',
+        element: <UserProfile></UserProfile>
+      },
+      {
+        path: '/editProfile',
+        element: <PrivateRoute><EditProfileForm></EditProfileForm></PrivateRoute>
       },
 
       {
@@ -123,11 +135,11 @@ const Router = createBrowserRouter([
       {
         path: 'myPostJobs/updateJobs/:id',
         // element:<AdminRoute><UpadateJobs></UpadateJobs></AdminRoute>,
-        // loader: ({params}) => fetch(`https://job-box-portal-server.vercel.app/jobs/${params.id}`)
+        // loader: ({params}) => fetch(`http://localhost:5000/jobs/${params.id}`)
         element: (
           <ProtectedRoute allowedRoles={['admin', 'recruiter']}><UpadateJobs></UpadateJobs></ProtectedRoute>
         ),
-        loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/jobs/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/jobs/${params.id}`)
 
       },
       {
@@ -141,12 +153,12 @@ const Router = createBrowserRouter([
       {
         path: 'myPostJobs/viewApplications-job/:job_id',
         // element: <AdminRoute><ViewApplications_job></ViewApplications_job></AdminRoute>,
-        // loader: ({params}) => fetch(`https://job-box-portal-server.vercel.app/job-applications/jobs/${params.job_id}`)
+        // loader: ({params}) => fetch(`http://localhost:5000/job-applications/jobs/${params.job_id}`)
         element: (
           <ProtectedRoute allowedRoles={['admin', 'recruiter']}><ViewApplications_job></ViewApplications_job></ProtectedRoute>
         ),
-        // loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/job-applications/jobs/${params.job_id}`)
-        loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/job-applications/jobs/${params.job_id}`, { credentials: 'include' })
+        // loader: ({ params }) => fetch(`http://localhost:5000/job-applications/jobs/${params.job_id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/job-applications/jobs/${params.job_id}`, { credentials: 'include' })
 
 
       },
@@ -158,7 +170,7 @@ const Router = createBrowserRouter([
       // recruiter
       {
         path: 'recruiterHome',
-        element: <RecuiterHome></RecuiterHome>
+        element: <RecruiterRoute><RecuiterHome></RecuiterHome></RecruiterRoute>
       },
       //user
       {
@@ -178,7 +190,7 @@ const Router = createBrowserRouter([
       {
         path: 'myReviewDetails/update_review/:id',
         element: <UpdateReviews></UpdateReviews>,
-        loader: ({ params }) => fetch(`https://job-box-portal-server.vercel.app/reviews/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/reviews/${params.id}`)
       },
       {
         path: 'contact-messages',

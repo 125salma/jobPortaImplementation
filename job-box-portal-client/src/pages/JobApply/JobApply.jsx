@@ -33,7 +33,7 @@ const JobApply = () => {
 
         }
 
-        // fetch('https://job-box-portal-server.vercel.app/job-applications', {
+        // fetch('http://localhost:5000/job-applications', {
         //     method: 'POST',
         //     headers: {
         //         'content-type': 'application/json'
@@ -55,7 +55,7 @@ const JobApply = () => {
         //     } 
         // })
 
-        // axios.post('https://job-box-portal-server.vercel.app/job-applications',jobApplication)
+        // axios.post('http://localhost:5000/job-applications',jobApplication)
         axiosSecure.post('/job-applications', jobApplication)
 
             .then(res => {

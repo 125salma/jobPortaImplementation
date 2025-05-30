@@ -12,84 +12,6 @@ const Dashboard = () => {
 
   const { roleInfo } = useRoleHandleSystem()
   return (
-    // <div className='flex'>
-    //     {/* dashboard side bar */}
-    //     <div className='w-64 min-h-screen bg-orange-400'>
-    //         <ul className='menu'>
-
-    //             {
-    //                 isAdmin ? <>
-    //                 <li><NavLink to="/dashboard/adminHome">
-    //             <FaHouse></FaHouse>
-    //             Admin Home</NavLink></li>
-
-    //             <li><NavLink to="/dashboard/addjobs">
-    //             <FaBook></FaBook>
-    //              Add jobs</NavLink></li>
-
-    //             <li><NavLink to="/dashboard/manageUsers">
-    //             <FaList></FaList>
-    //             Manage Users</NavLink></li>
-
-    //             <li><NavLink to="/dashboard/myPostedJobs">
-    //             <FaList></FaList>
-    //             My Posted Jobs</NavLink></li>
-
-    //             <li><NavLink to="/dashboard/viewApplications">
-    //             <FaList></FaList>
-    //             ViewApplications</NavLink></li>
-
-    //             <li><NavLink to="/dashboard/users">
-    //             <FaUsers></FaUsers>
-    //              All Users</NavLink></li>
-    //                 </> :
-    //                 <>
-    //                 <li><NavLink to="/dashboard/UserHome">
-    //             <FaHouse></FaHouse>
-    //             User Home</NavLink></li>
-
-    //             <li><NavLink to="/dashboard/myApplications">
-    //             <FaBook></FaBook>
-    //             My Application</NavLink></li>
-
-    //             <li><NavLink to="/dashboard/reservations">
-    //             <FaCalendar></FaCalendar>
-    //             Reservation</NavLink></li>
-
-    //             <li><NavLink to="/dashboard/review">
-    //             <FaAd></FaAd>
-    //              Add a Review</NavLink></li>
-    //                 </>
-    //             }
-
-
-
-    //              <div className="divider"></div>
-    //              {/* sheared nav links */}
-    //              <li><NavLink to="/">
-    //             <FaHouse></FaHouse>
-    //              Home</NavLink></li>
-
-    //              <li><NavLink to="/jobs">
-    //             <FaSearch></FaSearch>
-    //              All Jobs</NavLink></li>
-
-    //              <li><NavLink to="/jobs">
-    //             <FaEnvelope></FaEnvelope>
-    //              Contact</NavLink></li>
-
-    //         </ul>
-    //     </div>
-    //     {/* dashboard content */}
-    //     <div className='flex-1 p-8'>
-    //         <Outlet></Outlet>
-    //     </div>
-    // </div>
-
-
-
-
-
 
     <div className='flex'>
       {/* dashboard side bar */}
@@ -125,7 +47,7 @@ const Dashboard = () => {
               <li><NavLink to="/dashboard/myApplications"><FaBook />
 
                 <div className="indicator">
-                  <span className="indicator-item text-primary ">+{jobs.length}</span>
+                  <span className="indicator-item text-primary pb-2 ">+{jobs.length}</span>
                   <p>My Applications</p>
                 </div>
 

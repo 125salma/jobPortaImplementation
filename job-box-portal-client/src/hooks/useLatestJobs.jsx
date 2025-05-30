@@ -6,7 +6,7 @@ const useLatestJobs = () => {
     const {data: jobs = [],isLoading,refetch,isError, } = useQuery({
     queryKey: ['jobs'],
     queryFn: async () => {
-      const res = await axios.get('https://job-box-portal-server.vercel.app/jobs?salarySort=false');
+      const res = await axios.get('http://localhost:5000/jobs?salarySort=false');
       return res.data;
     }
   });

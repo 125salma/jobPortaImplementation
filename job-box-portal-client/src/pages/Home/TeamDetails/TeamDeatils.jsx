@@ -16,6 +16,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FaPhone } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
+import useAuth from '../../../hooks/useAuth';
 
 const TeamDeatils = () => {
     const axiosSecure = useAxiosSecure();
@@ -58,11 +59,13 @@ const TeamDeatils = () => {
                 {admins.map((member, index) => (
                     <SwiperSlide key={index}>
                         <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg mt-6">
+                         <Link to={`/profile/${member.email}`}>
                             <img
                                 src={member.photo}
                                 alt={member.name}
                                 className="w-24 h-24 rounded-full object-cover border-4 border-blue-400 mb-4"
                             />
+                         </Link>
                             <h3 className="text-xl font-semibold">{member.name}</h3>
                             <p className="text-sm text-gray-600">{member.role}</p>
                             <div className='flex'>

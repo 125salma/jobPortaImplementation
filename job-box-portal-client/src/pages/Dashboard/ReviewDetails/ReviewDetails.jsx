@@ -29,11 +29,13 @@ const ReviewDetails = () => {
   return (
     <div className="p-6 my-12">
     
-        <SectionTitle heading="All User Reviews" subHeading="What Our Client Review"></SectionTitle>
+        <SectionTitle heading="All User Reviews" subHeading="What Our Client Say"></SectionTitle>
       <div className="grid gap-4 ">
         {reviews.map((review) => (
           <div key={review._id} className="border p-4 rounded shadow ">
 
+         <Link to={`/profile/${review.email}`}>
+         
             <div className="avatar placeholder pr-2 ">
               <div className="bg-neutral text-neutral-content w-8 rounded-full">
                 <span className="text-xs">
@@ -43,6 +45,7 @@ const ReviewDetails = () => {
 
               <p className='ml-2'><strong>{review.name}</strong></p>
             </div>
+         </Link>
 
             <small>
               <p className='flex items-center ml-8'><FcAlarmClock></FcAlarmClock>: {moment(new Date(review.createdAt)).fromNow()}</p>
